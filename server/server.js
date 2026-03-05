@@ -7,7 +7,7 @@ const app = express();
 
 // CORS configuration - declared only once
 const corsOptions = {
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin: process.env.CLIENT_URL,
   credentials: true,
   optionsSuccessStatus: 200
 };
@@ -32,6 +32,22 @@ app.get('/', (req, res) => res.send('API is running...'));
 const PORT = process.env.PORT || 5000;
 
 const server = app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+
+// Socket.IO setup
+const io = require('socket.io')(server, {
+  cors: {
+    origin: process.env.CLIENT_URL,
+    credentials: true
+  }
+});
+
+io.on('connection', (socket) => {
+  console.log('New client connected:', socket.id);
+
+  socket.on('disconnect', () => {
+    console.log('Client disconnected:', socket.id);
+  });
+});
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err) => {
