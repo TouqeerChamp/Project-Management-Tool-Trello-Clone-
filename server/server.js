@@ -63,20 +63,6 @@ const io = socketIo(server, {
 // Store connected users by board
 const boardUsers = new Map();
 
-// Socket.IO connection handling
-const io = socketIo(server, {
-  cors: {
-    origin: process.env.NODE_ENV === 'production'
-      ? [
-          process.env.CLIENT_URL,
-          process.env.VERCEL_URL || '', // Vercel deployment URL
-          'http://localhost:5173' // Local development
-        ].filter(url => url) // Remove empty strings
-      : 'http://localhost:5173',
-    methods: ['GET', 'POST'],
-    credentials: true
-  }
-});
 
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
