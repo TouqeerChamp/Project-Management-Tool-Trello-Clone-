@@ -5,17 +5,18 @@ import { removeToken } from '../utils/auth';
 import listAPI from '../api/lists';
 import cardAPI from '../api/cards';
 import boardAPI from '../api/boards';
-import io from 'socket.io-client';
+import { useSocket } from '../context/SocketContext';
 
 // Initialize socket connection using environment variable
 const socket = io(import.meta.env.VITE_SOCKET_URL, {
-  transports: ['polling', 'websocket'],
+  transports: ['polling', 'websocket'], // Polling pehle add karein
   withCredentials: true
 });
 
 const BoardDetail = () => {
   const { id: boardId } = useParams();
   const navigate = useNavigate();
+  const { socket, onlineUsers, setOnlineUsers } = useSocket();
   const [board, setBoard] = useState(null);
   const [lists, setLists] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -27,7 +28,6 @@ const BoardDetail = () => {
   const [editCardDescription, setEditCardDescription] = useState('');
   const [editCardPriority, setEditCardPriority] = useState('Medium');
   const [editCardDueDate, setEditCardDueDate] = useState('');
-  const [onlineUsers, setOnlineUsers] = useState(0); // Track online users
   const [showChat, setShowChat] = useState(false); // Toggle chat sidebar
   const [showMobileChat, setShowMobileChat] = useState(false); // Toggle chat sidebar on mobile
   const [messages, setMessages] = useState([]); // Store chat messages
