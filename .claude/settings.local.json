@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ping cluster0-shard-00-00.7asswrh.mongodb.net)",
+      "Bash(nslookup cluster0-shard-00-00.7asswrh.mongodb.net)",
+      "Bash(cd server && node server.js)",
+      "Bash(cd server && node debug-connection.js)",
+      "Bash(cd server && node test-connection.js)",
+      "Bash(cd server && node test-direct.js)",
+      "Bash(curl ifconfig.me)",
+      "Bash(node -e \"console.log\\('bcryptjs available:', require.resolve\\('bcryptjs'\\) ? 'yes' : 'no'\\); console.log\\('jsonwebtoken available:', require.resolve\\('jsonwebtoken'\\) ? 'yes' : 'no'\\);\")",
+      "Bash(cd server && timeout 10s node server.js)",
+      "Bash(cd client && npm install react-router-dom axios)",
+      "Bash(cd client && npm install -D tailwindcss postcss autoprefixer)",
+      "Bash(cd \"C:\\\\Users\\\\Touqeer\\\\Desktop\\\\Project Management Tool\\\\Trello-Clone-MERN\\\\client\" && npm install -D tailwindcss postcss autoprefixer)",
+      "Bash(cd \"C:\\\\Users\\\\Touqeer\\\\Desktop\\\\Project Management Tool\\\\Trello-Clone-MERN\\\\client\" && npx tailwindcss init -p)",
+      "Bash(cd client && npm install @hello-pangea/dnd)",
+      "Bash(cd client && npm run dev)",
+      "Bash(cd server && npm install socket.io)",
+      "Bash(cd ../client && npm install socket.io-client)",
+      "Bash(cd client && npm run build)",
+      "Bash(git --version)",
+      "Bash(git init)",
+      "Bash(git add .)"
+    ]
+  }
+}
