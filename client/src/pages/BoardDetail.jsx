@@ -7,12 +7,6 @@ import cardAPI from '../api/cards';
 import boardAPI from '../api/boards';
 import { useSocket } from '../context/SocketContext';
 
-// Initialize socket connection using environment variable
-const socket = io(import.meta.env.VITE_SOCKET_URL, {
-  transports: ['polling', 'websocket'], // Polling pehle add karein
-  withCredentials: true
-});
-
 const BoardDetail = () => {
   const { id: boardId } = useParams();
   const navigate = useNavigate();
