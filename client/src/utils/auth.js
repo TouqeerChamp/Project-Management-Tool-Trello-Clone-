@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 export const apiRequest = async (endpoint, options = {}) => {
   const token = localStorage.getItem('token');
@@ -7,7 +7,9 @@ export const apiRequest = async (endpoint, options = {}) => {
     ...options.headers,
   };
 
-  if (token) headers['Authorization'] = `Bearer ${token}`;
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
 
   const url = `${API_BASE_URL}${endpoint.startsWith('/') ? endpoint : '/' + endpoint}`;
 
@@ -18,4 +20,12 @@ export const apiRequest = async (endpoint, options = {}) => {
     throw new Error(errorData.message || 'API Request Failed');
   }
   return response.json();
+};
+
+export const removeToken = () => {
+  localStorage.removeItem('token');
+};
+
+export const isAuthenticated = () => {
+  return !!localStorage.getItem('token');
 };

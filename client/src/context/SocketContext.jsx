@@ -16,9 +16,8 @@ export const SocketProvider = ({ children }) => {
   const [onlineUsers, setOnlineUsers] = useState(0);
 
   useEffect(() => {
-    // Vite environment variables
-    const socketUrl = import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000';
-    
+    const socketUrl = import.meta.env.VITE_SOCKET_URL;
+
     const newSocket = io(socketUrl, {
       transports: ['polling', 'websocket'],
       withCredentials: true
