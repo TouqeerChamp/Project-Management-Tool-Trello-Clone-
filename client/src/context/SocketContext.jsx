@@ -3,24 +3,33 @@ import { io } from 'socket.io-client';
 
 const SocketContext = createContext();
 
-export const useSocket = () => useContext(SocketContext);
+export const useSocket = () => {
+  const context = useContext(SocketContext);
+  if (!context) {
+    throw new Error('useSocket must be used within a SocketProvider');
+  }
+  return context;
+};
 
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState(0);
 
   useEffect(() => {
-    // Render/Production ke liye sahi initialization
+    // Vite environment variables
     const socketUrl = import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000';
     
     const newSocket = io(socketUrl, {
-      transports: ['polling', 'websocket'], // Polling zaroori hai Render ke liye
+      transports: ['polling', 'websocket'],
       withCredentials: true
     });
 
     setSocket(newSocket);
 
-    return () => newSocket.close();
+    // Cleanup on unmount
+    return () => {
+      if (newSocket) newSocket.close();
+    };
   }, []);
 
   return (
