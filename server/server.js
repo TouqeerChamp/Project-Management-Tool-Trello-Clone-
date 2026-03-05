@@ -26,15 +26,8 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/projects', require('./routes/projects'));
 app.use('/api/tasks', require('./routes/tasks'));
 
-// Serve static assets in production
-if (process.env.NODE_ENV === 'production') {
-  const path = require('path');
-  app.use(express.static(path.join(__dirname, 'client', 'build')));
-
-  app.get('(.*)', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-  });
-}
+// Simple root route for testing
+app.get('/', (req, res) => res.send('API is running...'));
 
 const PORT = process.env.PORT || 5000;
 
