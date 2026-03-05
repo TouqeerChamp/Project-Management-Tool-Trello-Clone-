@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: trello-clone-server
+    env: node
+    buildCommand: "npm install"
+    startCommand: "npm run render-start"
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false  # This will be set manually in the Render dashboard
+      - key: JWT_SECRET
+        sync: false  # This will be set manually in the Render dashboard
+      - key: CLIENT_URL
+        sync: false  # This will be set manually in the Render dashboard with your frontend URL

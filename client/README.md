@@ -32,4 +32,4 @@ This is the frontend for the Project Management Tool (Trello Clone) built with R
 
 ## API Integration
 
-The frontend connects to the backend API at `http://localhost:5000/api/auth/` for authentication.
+The frontend connects to the backend API. You can configure the API URL using the `VITE_API_URL` environment variable. If not set, it defaults to `http://localhost:5000/api`.

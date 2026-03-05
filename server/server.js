@@ -17,7 +17,11 @@ const app = express();
 // Middleware
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production'
-    ? [process.env.CLIENT_URL, 'http://localhost:5173'] // Add your Vercel URL to CLIENT_URL in production
+    ? [
+        process.env.CLIENT_URL,
+        process.env.VERCEL_URL || '', // Vercel deployment URL
+        'http://localhost:5173' // Local development
+      ].filter(url => url) // Remove empty strings
     : 'http://localhost:5173',
   credentials: true
 };
@@ -31,12 +35,25 @@ app.use('/api/boards', boardRoutes);
 app.use('/api/lists', listRoutes);
 app.use('/api/cards', cardRoutes);
 
+// Health check endpoint for Render
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'OK',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime()
+  });
+});
+
 // Create HTTP server and attach Socket.IO
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
     origin: process.env.NODE_ENV === 'production'
-      ? [process.env.CLIENT_URL, 'http://localhost:5173'] // Add your Vercel URL to CLIENT_URL in production
+      ? [
+          process.env.CLIENT_URL,
+          process.env.VERCEL_URL || '', // Vercel deployment URL
+          'http://localhost:5173' // Local development
+        ].filter(url => url) // Remove empty strings
       : 'http://localhost:5173',
     methods: ['GET', 'POST'],
     credentials: true
@@ -47,6 +64,20 @@ const io = socketIo(server, {
 const boardUsers = new Map();
 
 // Socket.IO connection handling
+const io = socketIo(server, {
+  cors: {
+    origin: process.env.NODE_ENV === 'production'
+      ? [
+          process.env.CLIENT_URL,
+          process.env.VERCEL_URL || '', // Vercel deployment URL
+          'http://localhost:5173' // Local development
+        ].filter(url => url) // Remove empty strings
+      : 'http://localhost:5173',
+    methods: ['GET', 'POST'],
+    credentials: true
+  }
+});
+
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
 
@@ -129,12 +160,11 @@ io.on('connection', (socket) => {
 // MongoDB connection
 const connectDB = async () => {
   try {
-    console.log('🚀 Connecting to LOCAL MongoDB...');
-    // Local ke liye kisi extra options (family, timeout) ki zaroorat nahi
+    console.log('🚀 Connecting to MongoDB...');
     await mongoose.connect(process.env.MONGODB_URI);
-    console.log('✅ BOOM! Local MongoDB Connected Successfully');
+    console.log('✅ MongoDB Connected Successfully');
   } catch (err) {
-    console.error('❌ Local Connection Failed:', err.message);
+    console.error('❌ MongoDB Connection Failed:', err.message);
   }
 };
 

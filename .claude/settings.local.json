@@ -21,7 +21,12 @@
       "Bash(cd client && npm run build)",
       "Bash(git --version)",
       "Bash(git init)",
-      "Bash(git add .)"
+      "Bash(git add .)",
+      "Bash(git commit -m \"Initial commit: MERN Trello Clone with proper deployment configuration\")",
+      "Bash(git remote add origin https://github.com/TouqeerChamp/Project-Management-Tool-Trello-Clone-.git)",
+      "Bash(git branch -M main)",
+      "Bash(git push -u origin main)",
+      "Bash(findstr /s /i /C:\"http://localhost:5000\" \"C:\\\\Users\\\\Touqeer\\\\Desktop\\\\Project Management Tool\\\\Trello-Clone-MERN\\\\client\\\\*\" | findstr /v \"import.meta.env\" | findstr /v \"VITE_\")"
     ]
   }
 }

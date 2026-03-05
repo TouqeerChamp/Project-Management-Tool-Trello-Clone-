@@ -54,8 +54,8 @@ A modern, visually stunning task management system inspired by Trello, featuring
 
    Create a `.env` file in the client directory with the following variables:
    ```env
-   REACT_APP_API_URL=http://localhost:5000
-   REACT_APP_SOCKET_URL=http://localhost:5000
+   VITE_API_URL=http://localhost:5000/api
+   VITE_SOCKET_URL=http://localhost:5000
    ```
 
 5. **Run the Application**
