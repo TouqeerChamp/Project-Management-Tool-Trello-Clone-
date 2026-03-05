@@ -30,10 +30,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/boards', boardRoutes);
-app.use('/api/lists', listRoutes);
-app.use('/api/cards', cardRoutes);
+app.use('/auth', authRoutes);
+app.use('/boards', boardRoutes);
+app.use('/lists', listRoutes);
+app.use('/cards', cardRoutes);
 
 // Health check endpoint for Render
 app.get('/health', (req, res) => {
@@ -48,7 +48,7 @@ app.get('/health', (req, res) => {
 const server = http.createServer(app);
 
 // Configure CORS for Socket.IO based on environment
-let corsOptions = {
+const socketCorsOptions = {
   origin: process.env.NODE_ENV === 'production'
     ? [
         process.env.CLIENT_URL,
@@ -61,7 +61,7 @@ let corsOptions = {
   credentials: true
 };
 
-const io = socketIo(server, corsOptions);
+const io = socketIo(server, socketCorsOptions);
 
 // Store connected users by board
 const boardUsers = new Map();
