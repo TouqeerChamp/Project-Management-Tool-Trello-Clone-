@@ -12,14 +12,16 @@ const authRoutes = require('./routes/auth');
 const boardRoutes = require('./routes/boards');
 const listRoutes = require('./routes/lists');
 const cardRoutes = require('./routes/cards');
+
 const app = express();
 
-// Middleware
+// Middleware - corsOptions declared ONCE
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production'
     ? [
         process.env.CLIENT_URL,
         process.env.VERCEL_URL || '', // Vercel deployment URL
+        process.env.RENDER_EXTERNAL_URL || '', // Render deployment URL
         'http://localhost:5173' // Local development
       ].filter(url => url) // Remove empty strings
     : 'http://localhost:5173',
@@ -47,7 +49,7 @@ app.get('/health', (req, res) => {
 // Create HTTP server and attach Socket.IO
 const server = http.createServer(app);
 
-// Configure CORS for Socket.IO based on environment
+// Configure CORS for Socket.IO based on environment - socketCorsOptions declared ONCE
 const socketCorsOptions = {
   origin: process.env.NODE_ENV === 'production'
     ? [
@@ -61,11 +63,11 @@ const socketCorsOptions = {
   credentials: true
 };
 
+// io declared ONCE
 const io = socketIo(server, socketCorsOptions);
 
 // Store connected users by board
 const boardUsers = new Map();
-
 
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
@@ -146,7 +148,7 @@ io.on('connection', (socket) => {
   });
 });
 
-// MongoDB connection
+// MongoDB connection using process.env.MONGODB_URI
 const connectDB = async () => {
   try {
     console.log('🚀 Connecting to MongoDB...');
