@@ -46,19 +46,22 @@ app.get('/health', (req, res) => {
 
 // Create HTTP server and attach Socket.IO
 const server = http.createServer(app);
-const io = socketIo(server, {
-  cors: {
-    origin: process.env.NODE_ENV === 'production'
-      ? [
-          process.env.CLIENT_URL,
-          process.env.VERCEL_URL || '', // Vercel deployment URL
-          'http://localhost:5173' // Local development
-        ].filter(url => url) // Remove empty strings
-      : 'http://localhost:5173',
-    methods: ['GET', 'POST'],
-    credentials: true
-  }
-});
+
+// Configure CORS for Socket.IO based on environment
+let corsOptions = {
+  origin: process.env.NODE_ENV === 'production'
+    ? [
+        process.env.CLIENT_URL,
+        process.env.VERCEL_URL || '', // Vercel deployment URL
+        process.env.RENDER_EXTERNAL_URL || '', // Render deployment URL
+        'http://localhost:5173' // Local development
+      ].filter(url => url) // Remove empty strings
+    : 'http://localhost:5173',
+  methods: ['GET', 'POST'],
+  credentials: true
+};
+
+const io = socketIo(server, corsOptions);
 
 // Store connected users by board
 const boardUsers = new Map();
