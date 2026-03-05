@@ -26,7 +26,8 @@
       "Bash(git remote add origin https://github.com/TouqeerChamp/Project-Management-Tool-Trello-Clone-.git)",
       "Bash(git branch -M main)",
       "Bash(git push -u origin main)",
-      "Bash(findstr /s /i /C:\"http://localhost:5000\" \"C:\\\\Users\\\\Touqeer\\\\Desktop\\\\Project Management Tool\\\\Trello-Clone-MERN\\\\client\\\\*\" | findstr /v \"import.meta.env\" | findstr /v \"VITE_\")"
+      "Bash(findstr /s /i /C:\"http://localhost:5000\" \"C:\\\\Users\\\\Touqeer\\\\Desktop\\\\Project Management Tool\\\\Trello-Clone-MERN\\\\client\\\\*\" | findstr /v \"import.meta.env\" | findstr /v \"VITE_\")",
+      "Bash(dir \"C:\\\\Users\\\\Touqeer\\\\Desktop\\\\Project Management Tool\\\\Trello-Clone-MERN\\\\server\\\\\")"
     ]
   }
 }
