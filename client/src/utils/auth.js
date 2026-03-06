@@ -1,5 +1,4 @@
 // client/src/utils/auth.js
-// ✅ Hum ne Backend URL ko seedha yahan define kar diya hai taake koi shak na rahe
 const BACKEND_URL = "https://trello-backend-touqeer.onrender.com/api";
 
 export const apiRequest = async (endpoint, options = {}) => {
@@ -11,11 +10,8 @@ export const apiRequest = async (endpoint, options = {}) => {
 
   if (token) headers['Authorization'] = `Bearer ${token}`;
 
-  // Ensure path is correct
-  const path = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-  const url = `${BACKEND_URL}${path}`;
-
-  console.log("🚀 Requesting to:", url); // Debugging ke liye lazmi
+  const cleanPath = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  const url = `${BACKEND_URL}${cleanPath}`;
 
   const response = await fetch(url, { ...options, headers });
 
@@ -32,3 +28,4 @@ export const removeToken = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('user');
 };
+export const isAuthenticated = () => !!localStorage.getItem('token');
