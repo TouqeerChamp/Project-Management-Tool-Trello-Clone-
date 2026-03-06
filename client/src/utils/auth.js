@@ -1,6 +1,6 @@
 // client/src/utils/auth.js
-// ✅ Added missing /api prefix to match your Render backend
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// ✅ Hum ne Backend URL ko seedha yahan define kar diya hai taake koi shak na rahe
+const BACKEND_URL = "https://trello-backend-touqeer.onrender.com/api";
 
 export const apiRequest = async (endpoint, options = {}) => {
   const token = localStorage.getItem('token');
@@ -11,29 +11,24 @@ export const apiRequest = async (endpoint, options = {}) => {
 
   if (token) headers['Authorization'] = `Bearer ${token}`;
 
-  // Ensure double slashes are handled
-  const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-  const url = `${API_BASE_URL}${cleanEndpoint}`;
+  // Ensure path is correct
+  const path = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  const url = `${BACKEND_URL}${path}`;
+
+  console.log("🚀 Requesting to:", url); // Debugging ke liye lazmi
 
   const response = await fetch(url, { ...options, headers });
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || 'API Request Failed');
+    throw new Error(errorData.message || 'API Error');
   }
   return response.json();
 };
 
 export const setToken = (token) => localStorage.setItem('token', token);
 export const getToken = () => localStorage.getItem('token');
-
-// ✅ Fixed: Exporting removeToken clearly
 export const removeToken = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('user');
-};
-
-// ✅ Fixed: Exporting isAuthenticated
-export const isAuthenticated = () => {
-  return !!localStorage.getItem('token');
 };
