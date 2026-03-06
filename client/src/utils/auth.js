@@ -1,22 +1,17 @@
 // client/src/utils/auth.js
-// ✅ Use the base URL WITHOUT /api at the end here
-const BACKEND_URL = "https://trello-backend-touqeer.onrender.com";
+const BACKEND_URL = "https://trello-backend-touqeer.onrender.com"; // ✅ No /api here
 
 export const apiRequest = async (endpoint, options = {}) => {
   const token = localStorage.getItem('token');
-  const headers = {
-    'Content-Type': 'application/json',
-    ...options.headers,
-  };
-
+  const headers = { 'Content-Type': 'application/json', ...options.headers };
   if (token) headers['Authorization'] = `Bearer ${token}`;
 
-  // ✅ Forcefully adding /api here to ensure it's correct: https://...com/api/login
   const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-  const url = `${BACKEND_URL}/api${cleanEndpoint}`;
+  
+  // ✅ Directly joining WITHOUT /api
+  const url = `${BACKEND_URL}${cleanEndpoint}`; 
 
-  console.log("🛠️ Actual Request URL:", url); // Build logs mein check karne ke liye
-
+  console.log("🚀 FINAL URL TEST:", url);
   const response = await fetch(url, { ...options, headers });
 
   if (!response.ok) {
