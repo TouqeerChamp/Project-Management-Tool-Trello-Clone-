@@ -6,7 +6,6 @@ import listAPI from '../api/lists';
 import cardAPI from '../api/cards';
 import boardAPI from '../api/boards';
 import { useSocket } from '../context/SocketContext';
-import { io } from 'socket.io-client'; // ✅ Fixed: Missing import added
 
 const BoardDetail = () => {
   const { id: boardId } = useParams();
