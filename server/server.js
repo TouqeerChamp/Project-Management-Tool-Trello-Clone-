@@ -24,6 +24,8 @@ connectDB();
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/boards', require('./routes/boards'));
+app.use('/api/lists', require('./routes/lists'));
+app.use('/api/cards', require('./routes/cards'));
 app.use('/api/projects', require('./routes/projects'));
 app.use('/api/tasks', require('./routes/tasks'));
 
