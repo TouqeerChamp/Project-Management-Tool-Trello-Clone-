@@ -1,23 +1,16 @@
-// client/src/utils/auth.js
-
-// ✅ Backend URL without /api prefix
 const BACKEND_URL = "https://trello-backend-touqeer.onrender.com"; 
 
 export const apiRequest = async (endpoint, options = {}) => {
   const token = localStorage.getItem('token');
-  const headers = { 
-    'Content-Type': 'application/json', 
-    ...options.headers 
-  };
-  
+  const headers = { 'Content-Type': 'application/json', ...options.headers };
   if (token) headers['Authorization'] = `Bearer ${token}`;
 
-  // ✅ Clean the endpoint and combine directly
   const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  
+  // ✅ Direct concatenation: result will be https://...onrender.com/boards/stats
   const url = `${BACKEND_URL}${cleanEndpoint}`; 
 
-  console.log("🚀 SENDING REQUEST TO:", url);
-
+  console.log("🚀 FINAL URL TEST:", url);
   const response = await fetch(url, { ...options, headers });
 
   if (!response.ok) {
