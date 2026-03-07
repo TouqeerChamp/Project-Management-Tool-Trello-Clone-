@@ -225,6 +225,7 @@ const BoardDetail = () => {
           </div>
           <div className="flex gap-2">
             <button onClick={() => setShowListModal(true)} className="bg-green-500 text-white px-4 py-2 rounded-lg text-sm">Add List</button>
+            <button onClick={() => setShowChat(!showChat)} className="bg-purple-500 text-white px-4 py-2 rounded-lg text-sm">💬 Chat</button>
             <button onClick={() => navigate('/dashboard')} className="bg-white/20 text-white px-4 py-2 rounded-lg text-sm">Dashboard</button>
             <button onClick={handleLogout} className="bg-white/20 text-white px-4 py-2 rounded-lg text-sm">Logout</button>
           </div>
@@ -298,6 +299,37 @@ const BoardDetail = () => {
                     <button onClick={confirmDelete} className="bg-red-500 text-white px-4 py-2 rounded">Delete</button>
                 </div>
             </div>
+        </div>
+      )}
+
+      {showChat && (
+        <div className="fixed right-4 bottom-4 w-80 bg-white rounded-2xl shadow-2xl border border-white/20 overflow-hidden">
+          <div className="bg-purple-500 text-white p-3 flex justify-between items-center">
+            <h3 className="font-bold">💬 Board Chat</h3>
+            <button onClick={() => setShowChat(false)} className="text-white hover:text-gray-200">✕</button>
+          </div>
+          <div className="h-64 overflow-y-auto p-3 space-y-2 bg-gray-50">
+            {messages.length === 0 ? (
+              <p className="text-gray-500 text-sm text-center">No messages yet</p>
+            ) : (
+              messages.map((msg, idx) => (
+                <div key={idx} className="bg-white p-2 rounded-lg shadow-sm">
+                  <p className="text-xs font-bold text-purple-600">{msg.user}</p>
+                  <p className="text-sm text-gray-800">{msg.message}</p>
+                </div>
+              ))
+            )}
+          </div>
+          <div className="p-3 border-t border-gray-200 flex gap-2">
+            <input
+              className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-purple-500"
+              placeholder="Type a message..."
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+            />
+            <button onClick={sendMessage} className="bg-purple-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-purple-600">Send</button>
+          </div>
         </div>
       )}
     </div>

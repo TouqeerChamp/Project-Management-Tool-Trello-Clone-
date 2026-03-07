@@ -97,7 +97,7 @@ io.on('connection', (socket) => {
   // Handle chat messages
   socket.on('sendMessage', (data) => {
     console.log('Message sent:', data);
-    // Broadcast to all users in the board
+    // Broadcast to ALL users in the board (including sender)
     io.to(data.boardId).emit('newMessage', data);
   });
 
