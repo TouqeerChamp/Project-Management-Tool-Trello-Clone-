@@ -218,26 +218,28 @@ const BoardDetail = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500">
       <header className="backdrop-blur-lg bg-white/20 shadow-lg border-b border-white/20">
-        <div className="container mx-auto px-4 py-6 flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl font-bold text-white">{board?.title || 'Board'}</h1>
-            <p className="text-white/70">{onlineUsers} online</p>
-          </div>
-          <div className="flex gap-2">
-            <button onClick={() => setShowListModal(true)} className="bg-green-500 text-white px-4 py-2 rounded-lg text-sm">Add List</button>
-            <button onClick={() => setShowChat(!showChat)} className="bg-purple-500 text-white px-4 py-2 rounded-lg text-sm">💬 Chat</button>
-            <button onClick={() => navigate('/dashboard')} className="bg-white/20 text-white px-4 py-2 rounded-lg text-sm">Dashboard</button>
-            <button onClick={handleLogout} className="bg-white/20 text-white px-4 py-2 rounded-lg text-sm">Logout</button>
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <div>
+              <h1 className="text-xl sm:text-2xl font-bold text-white">{board?.title || 'Board'}</h1>
+              <p className="text-white/70 text-sm">{onlineUsers} online</p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button onClick={() => setShowListModal(true)} className="bg-green-500 text-white px-3 sm:px-4 py-2 rounded-lg text-sm whitespace-nowrap">Add List</button>
+              <button onClick={() => setShowChat(!showChat)} className="bg-purple-500 text-white px-3 sm:px-4 py-2 rounded-lg text-sm whitespace-nowrap">💬 Chat</button>
+              <button onClick={() => navigate('/dashboard')} className="bg-white/20 text-white px-3 sm:px-4 py-2 rounded-lg text-sm whitespace-nowrap">Dashboard</button>
+              <button onClick={handleLogout} className="bg-white/20 text-white px-3 sm:px-4 py-2 rounded-lg text-sm whitespace-nowrap">Logout</button>
+            </div>
           </div>
         </div>
       </header>
 
-      <div className="flex p-8 overflow-x-auto space-x-4 h-[calc(100vh-120px)]">
+      <div className="flex flex-col md:flex-row p-4 sm:p-8 gap-4 overflow-x-auto h-[calc(100vh-80px)] sm:h-[calc(100vh-120px)]">
         <DragDropContext onDragEnd={onDragEnd}>
           {lists.map((list) => (
             <Droppable droppableId={list._id} key={list._id}>
               {(provided) => (
-                <div ref={provided.innerRef} {...provided.droppableProps} className="w-72 flex-shrink-0 bg-white/20 backdrop-blur-lg rounded-2xl p-4 border border-white/20 h-fit">
+                <div ref={provided.innerRef} {...provided.droppableProps} className="w-72 flex-shrink-0 bg-white/20 backdrop-blur-lg rounded-2xl p-4 border border-white/20 h-fit max-h-full overflow-y-auto">
                   <div className="flex justify-between items-center mb-4">
                     <h3 className="text-white font-bold">{list.title}</h3>
                     <button onClick={() => handleDeleteList(list._id, list.title)} className="text-red-400">🗑</button>
@@ -261,9 +263,9 @@ const BoardDetail = () => {
                   <button onClick={() => toggleCardInput(list._id)} className="w-full mt-4 text-white/70 text-sm">+ Add Card</button>
                   {showCardInputs[list._id] && (
                     <form onSubmit={(e) => handleCreateCard(list._id, e)} className="mt-2 space-y-2">
-                        <input 
-                            className="w-full bg-white/20 p-2 rounded text-sm text-white outline-none" 
-                            placeholder="Title" 
+                        <input
+                            className="w-full bg-white/20 p-2 rounded text-sm text-white outline-none"
+                            placeholder="Title"
                             onChange={e => setCardInputs({...cardInputs, [`${list._id}_title`]: e.target.value})}
                         />
                         <button type="submit" className="w-full bg-blue-500 text-white text-xs py-1 rounded">Save</button>
@@ -274,7 +276,7 @@ const BoardDetail = () => {
             </Droppable>
           ))}
         </DragDropContext>
-        <button onClick={() => setShowListModal(true)} className="w-72 flex-shrink-0 bg-white/10 border-2 border-dashed border-white/30 rounded-2xl text-white h-20">+ Add New List</button>
+        <button onClick={() => setShowListModal(true)} className="w-72 flex-shrink-0 bg-white/10 border-2 border-dashed border-white/30 rounded-2xl text-white h-20 flex items-center justify-center">+ Add New List</button>
       </div>
 
       {showListModal && (
@@ -303,12 +305,12 @@ const BoardDetail = () => {
       )}
 
       {showChat && (
-        <div className="fixed right-4 bottom-4 w-80 bg-white rounded-2xl shadow-2xl border border-white/20 overflow-hidden">
+        <div className="fixed right-0 md:right-4 bottom-0 md:bottom-4 w-full md:w-80 bg-white rounded-t-2xl md:rounded-2xl shadow-2xl border border-white/20 overflow-hidden z-50 max-h-[50vh] md:max-h-none flex flex-col">
           <div className="bg-purple-500 text-white p-3 flex justify-between items-center">
             <h3 className="font-bold">💬 Board Chat</h3>
             <button onClick={() => setShowChat(false)} className="text-white hover:text-gray-200">✕</button>
           </div>
-          <div className="h-64 overflow-y-auto p-3 space-y-2 bg-gray-50">
+          <div className="flex-1 overflow-y-auto p-3 space-y-2 bg-gray-50 min-h-[200px]">
             {messages.length === 0 ? (
               <p className="text-gray-500 text-sm text-center">No messages yet</p>
             ) : (
@@ -328,7 +330,7 @@ const BoardDetail = () => {
               onChange={(e) => setNewMessage(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
             />
-            <button onClick={sendMessage} className="bg-purple-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-purple-600">Send</button>
+            <button onClick={sendMessage} className="bg-purple-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-purple-600 whitespace-nowrap">Send</button>
           </div>
         </div>
       )}
