@@ -1,15 +1,14 @@
 // client/src/utils/auth.js
-const BACKEND_URL = "https://trello-backend-touqeer.onrender.com"; // ✅ No /api here
+const BACKEND_URL = "https://trello-backend-touqeer.onrender.com/api"; // ✅ Wapas /api lagayein
 
 export const apiRequest = async (endpoint, options = {}) => {
   const token = localStorage.getItem('token');
   const headers = { 'Content-Type': 'application/json', ...options.headers };
   if (token) headers['Authorization'] = `Bearer ${token}`;
 
-  const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+ const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
   
-  // ✅ Directly joining WITHOUT /api
-  const url = `${BACKEND_URL}${cleanEndpoint}`; 
+const url = `${BACKEND_URL}${cleanEndpoint}`; // ✅ Simple concatenation
 
   console.log("🚀 FINAL URL TEST:", url);
   const response = await fetch(url, { ...options, headers });
